@@ -13,7 +13,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "sequelize": "^6.19.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
