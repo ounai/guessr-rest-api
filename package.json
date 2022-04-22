@@ -13,6 +13,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "chalk": "4.1.2",
     "express": "^4.17.3",
     "sequelize": "^6.19.0"
   },

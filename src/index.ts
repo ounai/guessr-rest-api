@@ -1,10 +1,9 @@
-import { hello } from './hello';
+'use strict';
 
-const main = () => {
-  // eslint-disable-next-line no-console
-  console.log('Initializing...');
+const log = require('./Logger')('index');
 
-  hello('World');
+const initialize = async () => {
+  log.info('Initializing...');
 };
 
-main();
+initialize();
