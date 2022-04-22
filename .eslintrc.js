@@ -1,5 +1,4 @@
 /* eslint-disable quote-props */
-'use strict';
 
 module.exports = {
   env: {
@@ -24,7 +23,7 @@ module.exports = {
     'semi': ['error', 'always'],
     'eol-last': ['error', 'always'],
     'no-console': ['warn'],
-    'strict': ['error', 'global'],
+    'strict': ['error', 'never'],
     'node/no-callback-literal': 'off',
     'no-multiple-empty-lines': [
       'error',
