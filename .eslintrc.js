@@ -1,3 +1,6 @@
+/* eslint-disable quote-props */
+'use strict';
+
 module.exports = {
   env: {
     es2021: true,
@@ -9,7 +12,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'script'
   },
   plugins: [
     '@typescript-eslint',
@@ -18,9 +21,10 @@ module.exports = {
   rules: {
     'max-len': ['warn', { code: 120 }],
     'max-lines-per-function': ['warn', 50],
-    semi: ['error', 'always'],
+    'semi': ['error', 'always'],
     'eol-last': ['error', 'always'],
     'no-console': ['warn'],
+    'strict': ['error', 'global'],
     'node/no-callback-literal': 'off',
     'no-multiple-empty-lines': [
       'error',
