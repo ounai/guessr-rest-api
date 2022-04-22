@@ -4,8 +4,7 @@
   "main": "src/index.ts",
   "repository": "git@github.com:ounai/boilerplate-ts.git",
   "author": "Onni Rantanen <ounaifi@gmail.com>",
-  "license": "unlicenced",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "node ./bin/index.js",
