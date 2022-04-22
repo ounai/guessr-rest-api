@@ -35,7 +35,7 @@ export default class Database {
     const filenames = Utils.getFilenamesInDirectory(filePath, 'js');
 
     if (filenames.length === 0) {
-      throw new Error(`No model files found in path "${filePath}"`);
+      log.error(`No model files found in path "${filePath}"`);
     }
 
     for (const filename of filenames) {
@@ -92,7 +92,7 @@ export default class Database {
   async #setupModels () {
     // Predefined rows
     for (const [modelName, model] of Object.entries(this.#models)) {
-      if (model.rows) {
+      if (model.rows.length > 0) {
         log.debug('Clearing table', modelName);
 
         await model.destroy({ truncate: true });
