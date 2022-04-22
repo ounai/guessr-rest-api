@@ -1,9 +1,14 @@
-'use strict';
+import config from './config';
+import Utils from './Utils';
+import Logger from './Logger';
 
-const log = require('./Logger')('index');
+import main from './main';
 
-const initialize = async () => {
-  log.info('Initializing...');
+export {
+  config,
+  Utils,
+  Logger
 };
 
-initialize();
+// Start execution
+main();

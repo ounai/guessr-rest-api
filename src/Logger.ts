@@ -1,19 +1,16 @@
 /* eslint-disable no-console */
-'use strict';
+import chalk from 'chalk';
 
-const chalk = require('chalk');
-
-const config = require('./config');
-const { currentTimeString } = require('./Utils');
+import { config, Utils } from '.';
 
 const debug = (process.env.NODE_ENV !== 'production');
 const disabled = (process.env.NODE_ENV === 'test');
 
-class Logger {
+export default class Logger {
   title?: string;
 
-  constructor (title?: string) {
-    if (debug && title) {
+  constructor (title: string) {
+    if (debug) {
       this.title = title.slice(0, config.logging.maxTitleLength);
 
       if (title.length > config.logging.maxTitleLength) {
@@ -36,7 +33,7 @@ class Logger {
         : ''
     );
 
-    return `[${currentTimeString()}, ${stream}]${title}`;
+    return `[${Utils.currentTimeString()}, ${stream}]${title}`;
   }
 
   info (...args: any[]) {
@@ -55,11 +52,3 @@ class Logger {
     if (debug && !disabled) this.error(...args);
   }
 }
-
-const defaultLogger = new Logger();
-
-module.exports = (title: string) => new Logger(title);
-module.exports.info = (...args: any[]) => defaultLogger.info(...args);
-module.exports.debug = (...args: any[]) => defaultLogger.debug(...args);
-module.exports.error = (...args: any[]) => defaultLogger.error(...args);
-module.exports.debugError = (...args: any[]) => defaultLogger.debugError(...args);

@@ -1,8 +1,6 @@
-'use strict';
+import fs from 'fs';
 
-const fs = require('fs');
-
-class Utils {
+export default class Utils {
   static getRandomInt (max: number) {
     return Math.floor(Math.random() * max);
   }
@@ -26,5 +24,3 @@ class Utils {
     return dateTimeFormat.format(new Date());
   }
 }
-
-module.exports = Utils;

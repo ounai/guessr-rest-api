@@ -1,7 +1,17 @@
-'use strict';
+import type { DatabaseConfig } from './db/Database';
 
-module.exports = {
+const database: DatabaseConfig = {
+  enableLogging: true,
+  modelsPath: 'db/models',
+  dialect: 'sqlite',
+  storage: ':memory:'
+};
+
+const config = {
   logging: {
     maxTitleLength: 18
-  }
+  },
+  database
 };
+
+export default config;
