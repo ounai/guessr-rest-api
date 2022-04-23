@@ -1,3 +1,5 @@
+import { Model } from 'sequelize';
+
 import { Database } from './db';
 import { Logger, config } from '.';
 
@@ -17,15 +19,14 @@ const main = async () => {
     await author.addBook(book);
   }
 
-  log.debug(
-    'Books:',
-    (await Book.findAll()).map(b => b.toJSON())
-  );
+  const books = await Book.findAll({ include: Author });
+  const authors = await Author.findAll({ include: Book });
 
-  log.debug(
-    'Authors:',
-    (await Author.findAll()).map(b => b.toJSON())
-  );
+  const stringifyModels = <T extends Model>(arr: T[]) =>
+    JSON.stringify(arr.map(item => item.toJSON()), null, 2);
+
+  log.debug(`Books:\n${stringifyModels(books)}`);
+  log.debug(`Authors:\n${stringifyModels(authors)}`);
 };
 
 export default main;
