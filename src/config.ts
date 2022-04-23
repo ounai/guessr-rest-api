@@ -2,7 +2,6 @@ import type { DatabaseConfig } from './db/Database';
 
 const database: DatabaseConfig = {
   enableLogging: true,
-  modelsPath: 'db/models',
   dialect: 'sqlite',
   storage: ':memory:'
 };
