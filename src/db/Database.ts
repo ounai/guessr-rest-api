@@ -12,10 +12,10 @@ export type DatabaseConfig = Options & {
 export default class Database {
   #sequelize: Sequelize;
 
-  constructor (databaseConfig: DatabaseConfig) {
+  constructor (config: DatabaseConfig) {
     log.info('Initializing database connection...');
 
-    const { enableLogging, ...sequelizeConfig } = databaseConfig;
+    const { enableLogging, ...sequelizeConfig } = config;
 
     this.#sequelize = new Sequelize({
       ...sequelizeConfig,
