@@ -1,6 +1,7 @@
 import { Model } from 'sequelize';
 
 import { Database } from './db';
+import { API } from './api';
 import { Logger, config } from '.';
 
 import { Book, Author } from './db/models';
@@ -11,6 +12,7 @@ const main = async () => {
   log.info('Initializing...');
 
   await new Database(config.database).init();
+  new API(config.api).init().listen();
 
   const book = await Book.findOne();
   const author = await Author.findOne();
