@@ -1,5 +1,9 @@
+import dotenv from 'dotenv';
+
 import type { DatabaseConfig } from './db/Database';
 import type { APIConfig } from './api/API';
+
+dotenv.config();
 
 const database: DatabaseConfig = {
   enableLogging: true,
@@ -16,8 +20,11 @@ const api: APIConfig = {
       port: 9001
     },
     https: {
-      enabled: false
-      // port: 9002
+      enabled: true,
+      port: 9002,
+      forwardHTTP: true,
+      keyPath: process.env.HTTPS_KEY_PATH,
+      certPath: process.env.HTTPS_CERT_PATH
     }
   },
   staticPaths: [

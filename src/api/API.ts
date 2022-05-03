@@ -1,6 +1,9 @@
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
+
 import express from 'express';
 import bodyParser from 'body-parser';
-import http from 'http';
 
 import * as routes from './routes';
 import { Logger } from '..';
@@ -16,7 +19,9 @@ interface HTTPConfig {
 
 interface HTTPSConfig {
   port: number;
-  // TODO credentials
+  forwardHTTP: boolean;
+  keyPath?: string;
+  certPath?: string;
 }
 
 type EnableConfig<T> =
@@ -64,6 +69,16 @@ export default class API {
   init () {
     log.info('Init API...');
 
+    if (this.#config.servers.https.enabled) {
+      const { forwardHTTP, port } = this.#config.servers.https;
+
+      // Forward HTTP requests to HTTPS
+      this.#app.use((req, res, next) => {
+        if (req.secure || !forwardHTTP) next();
+        else res.redirect(`https://${req.hostname}:${port}${req.url}`);
+      });
+    }
+
     if (this.#config.enableBodyParser) {
       this.#app.use(bodyParser.json());
       this.#app.use(bodyParser.urlencoded({ extended: true }));
@@ -103,7 +118,22 @@ export default class API {
     }
 
     if (httpsConfig.enabled) {
-      // TODO
+      if (!httpsConfig.keyPath) {
+        throw new Error('HTTPS key path missing');
+      }
+
+      if (!httpsConfig.certPath) {
+        throw new Error('HTTPS cert path missing');
+      }
+
+      const credentials = {
+        key: fs.readFileSync(httpsConfig.keyPath, 'utf8'),
+        cert: fs.readFileSync(httpsConfig.certPath, 'utf8')
+      };
+
+      https.createServer(credentials, this.#app).listen(httpsConfig.port, () => {
+        log.info(`HTTPS server listening on port ${httpsConfig.port}`);
+      });
     }
 
     return this;
