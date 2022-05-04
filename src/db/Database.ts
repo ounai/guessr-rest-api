@@ -23,6 +23,12 @@ export default class Database {
     });
   }
 
+  async #syncAllModels () {
+    log.debug('Syncing models...');
+
+    await this.#sequelize.sync();
+  }
+
   async init () {
     log.info('Connecting to the database...');
 
@@ -38,33 +44,34 @@ export default class Database {
 
     // Association
     for (const Model of Object.values(Models)) {
+      // @ts-ignore: allowed to not exist
       if (typeof Model.associate === 'function') {
         log.debug('Associate model', Model.name);
 
+        // @ts-ignore
         Model.associate();
       }
     }
 
-    // Sync all models
-    log.debug('Syncing models...');
-    await this.#sequelize.sync();
+    await this.#syncAllModels();
 
     // Fill with predefined rows
     for (const Model of Object.values(Models)) {
-      const rows = Model.rows;
-
-      if (Array.isArray(rows)) {
+      // @ts-ignore: rows are allowed to not exist
+      if (Array.isArray(Model.rows)) {
         log.debug('Clearing model', Model.name);
 
-        // @ts-ignore a nonsensical warning
         await Model.destroy({ truncate: true });
 
         // @ts-ignore: arrayness is already checked
-        for (const row of rows) {
-          // @ts-ignore: invalid row data is ignored for now
-          await Model.create(row);
-        }
+        for (const row of Model.rows) await Model.create(row);
       }
+    }
+
+    // Run after-init hooks
+    for (const Model of Object.values(Models)) {
+      // @ts-ignore: after init hook is allowed to not exist
+      if (typeof Model.afterInit === 'function') Model.afterInit(this.#sequelize);
     }
 
     log.info('Database connection successful!');

@@ -3,7 +3,8 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  DataTypes
+  DataTypes,
+  Sequelize
 } from 'sequelize';
 
 export default class Location extends Model<
@@ -17,6 +18,8 @@ export default class Location extends Model<
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  static #sequelize: Sequelize;
 
   static readonly columns = {
     id: {
@@ -37,7 +40,28 @@ export default class Location extends Model<
     updatedAt: DataTypes.DATE
   };
 
-  static readonly rows = null;
+  // TODO: Mock rows only for testing
+  static readonly rows = [
+    {
+      // Null Island
+      latitude: 0,
+      longitude: 0
+    },
+    {
+      // Helsinki, Finland
+      latitude: 60.1699,
+      longitude: 24.9384
+    }
+  ];
 
-  static associate () {}
+  static afterInit (sequelize: Sequelize) {
+    this.#sequelize = sequelize;
+  }
+
+  static async findRandomId (): Promise<number | null> {
+    return (await this.findOne({
+      attributes: ['id'],
+      order: this.#sequelize.random()
+    }))?.id ?? null;
+  }
 }
