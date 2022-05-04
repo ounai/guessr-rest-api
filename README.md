@@ -1,2 +1,2 @@
-# boilerplate-ts
-Basic boilerplate code for a TypeScript + Express + Sequelize project
+# guessr-rest-api
+REST API for a location guessing game
