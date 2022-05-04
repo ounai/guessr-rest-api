@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-ts",
+  "name": "guessr-rest-api",
   "version": "0.0.1",
   "main": "src/index.ts",
-  "repository": "git@github.com:ounai/boilerplate-ts.git",
+  "repository": "git@github.com:ounai/guessr-rest-api.git",
   "author": "Onni Rantanen <ounaifi@gmail.com>",
   "license": "MIT",
   "scripts": {
