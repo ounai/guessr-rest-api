@@ -1,7 +1,5 @@
-import Book from './Book';
-import Author from './Author';
+import Location from './Location';
 
 export {
-  Book,
-  Author
+  Location
 };

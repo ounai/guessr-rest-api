@@ -51,13 +51,16 @@ export default class Database {
 
     // Fill with predefined rows
     for (const Model of Object.values(Models)) {
-      if (Array.isArray(Model.rows)) {
+      const rows = Model.rows;
+
+      if (Array.isArray(rows)) {
         log.debug('Clearing model', Model.name);
 
         // @ts-ignore a nonsensical warning
         await Model.destroy({ truncate: true });
 
-        for (const row of Model.rows) {
+        // @ts-ignore: arrayness is already checked
+        for (const row of rows) {
           // @ts-ignore: invalid row data is ignored for now
           await Model.create(row);
         }

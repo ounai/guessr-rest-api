@@ -1,7 +1,5 @@
-import books from './books';
-import authors from './authors';
+import locations from './locations';
 
 export {
-  books,
-  authors
+  locations
 };
